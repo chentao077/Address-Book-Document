@@ -6,27 +6,28 @@ void InitContact(struct contact* ps)
 	ps->capacity = 3;
 	ps->size = 0;
 	//加载之前保存的数据
+	//struct People_Init tmp = { 0 };
+	//FILE* pfRead = fopen("contact.bat", "rb");
+	////如果存储文件不存在，生成文件
+	//if (pfRead == NULL)
+	//{
+	//	FILE* pfNew = fopen("contact.bat", "wb+");
+	//	fclose(pfNew);
+	//	pfNew = NULL;
+	//}
+//again方法
 	struct People_Init tmp = { 0 };
+again:
 	FILE* pfRead = fopen("contact.bat", "rb");
-	//如果存储文件不存在，生成文件
+	
 	if (pfRead == NULL)
 	{
-		FILE* pfNew = fopen("contact.bat", "wb+");
-		fclose(pfNew);
-		pfNew = NULL;
+		//printf("%s", strerror(errno));
+		FILE* pfRead = fopen("contact.bat", "wb+");
+		fclose(pfRead);
+		pfRead = NULL;
+		goto again;
 	}
-//again方法
-//again:
-//	FILE* pfRead = fopen("contact.bat", "rb");
-//	struct People_Init tmp = { 0 };
-//	if (pfRead == NULL)
-//	{
-//		//printf("%s", strerror(errno));
-//		FILE* pfRead = fopen("contact.bat", "wb+");
-//		fclose(pfRead);
-//		pfRead = NULL;
-//		goto again;
-//	}
 	while (fread(&tmp, sizeof(struct People_Init), 1, pfRead))//fread返回值是最后一次读取的实际数量
 	{
 		//检查容量
